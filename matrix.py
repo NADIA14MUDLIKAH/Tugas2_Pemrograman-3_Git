@@ -1,4 +1,7 @@
 # matriks/matrix.py
+# Tambahkan baris ini di bagian atas file
+# Kode ini direvisi oleh tim inti.
+
 class Matrix:
     """
     Kelas untuk merepresentasikan objek matriks.
@@ -13,4 +16,4 @@ data):
          self.cols = len(data[0]) if self.rows > 0 else 0
 
          if not all(len(row) == self.cols for row in data):
-             raise ValueError("Semua baris harus memiliki jumlah kolom yang sama.")
+             raise ValueError("Semua baris harus memiliki jumlah kolom yang sama.
