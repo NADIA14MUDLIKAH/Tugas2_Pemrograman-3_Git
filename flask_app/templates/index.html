@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Prediksi Suhu Harian</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>🌤️ Prediksi Suhu Berdasarkan Hari</h1>
+
+    <form id="predictForm">
+      <label for="hari">Masukkan Hari:</label>
+      <input type="number" id="hari" name="hari" min="1" required>
+      <button type="submit">Prediksi</button>
+    </form>
+
+    <div id="result"></div>
+
+    <canvas id="suhuChart"></canvas>
+  </div>
+
+  <script>
+    const suhuData = JSON.parse('{{ suhu_data|safe }}');
+    const ctx = document.getElementById('suhuChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: suhuData.map(d => d.hari),
+        datasets: [{
+          label: 'Suhu Aktual (°C)',
+          data: suhuData.map(d => d.suhu),
+          borderColor: '#4CAF50',
+          backgroundColor: 'rgba(76,175,80,0.2)',
+          tension: 0.3
+        }]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: false }
+        }
+      }
+    });
+
+    document.getElementById("predictForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const hari = document.getElementById("hari").value;
+      const res = await fetch("/predict", {
+        method: "POST",
+        body: new URLSearchParams({ hari }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      });
+      const data = await res.json();
+
+      if (data.prediksi) {
+        document.getElementById("result").innerHTML = `<h3>Prediksi Suhu Hari ke-${hari}: ${data.prediksi} °C</h3>`;
+
+        // Tambah titik prediksi di chart
+        chart.data.labels.push(Number(hari));
+        chart.data.datasets[0].data.push(data.prediksi);
+        chart.update();
+      } else {
+        document.getElementById("result").innerHTML = `<p style="color:red;">${data.error}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>
+
