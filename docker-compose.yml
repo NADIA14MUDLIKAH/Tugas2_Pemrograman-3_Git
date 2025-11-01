@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  flask:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./flask_app2:/app/flask_app2
+      - ./matrix_regression:/app/matrix_regression
+      - ./data:/app/data
+    environment:
+      - FLASK_ENV=development
+    working_dir: /app/flask_app2
+

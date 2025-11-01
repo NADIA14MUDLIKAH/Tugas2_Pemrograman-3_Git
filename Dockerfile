@@ -1,9 +1,16 @@
-FROM python:3.10-slim
+FROM python:3.12-slim
 
 WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Salin semua file proyek
 COPY . .
 
-RUN pip install flask numpy
+# Pastikan folder utama dikenali Python sebagai module path
+ENV PYTHONPATH=/app
 
-EXPOSE 5000
-CMD ["python", "flask_app/app.py"]
+WORKDIR /app/flask_app2
+CMD ["python", "app.py"]
+

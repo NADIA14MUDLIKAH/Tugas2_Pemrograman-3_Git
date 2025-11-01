@@ -9,7 +9,7 @@ import json
 app = Flask(__name__)
 
 # Baca data suhu dari CSV
-data = Matrix.from_csv("../data/matriks.csv").data
+data = Matrix.from_csv("data/matriks.csv").data
 hari = data[:, 0].reshape(-1, 1)
 suhu = data[:, 1].reshape(-1, 1)
 
@@ -33,5 +33,4 @@ def predict():
         return jsonify({"error": str(e)})
 
 if __name__ == "__main__":
-    app.run(debug=True)
-
+     app.run(host="0.0.0.0", port=5000, debug=True)

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Prediksi Suhu - Regresi Linear</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Prediksi Suhu - Regresi Linear</h1>
+
+    <h3>Matrix Asli</h3>
+    <pre>{{ original }}</pre>
+
+    <h3>Hasil Transpose</h3>
+    <pre>{{ transpose }}</pre>
+
+    <h3>Hasil Invers</h3>
+    <pre>{{ inverse }}</pre>
+
+    <h3>Hasil Regresi Linear</h3>
+    <p>Koefisien: {{ coef }} | Intercept: {{ intercept }}</p>
+
+    <canvas id="chart"></canvas>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('chart');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: {{ original|map(attribute=0)|list }},
+        datasets: [
+          {
+            label: 'Data Asli',
+            data: {{ original|map(attribute=1)|list }},
+            borderColor: 'blue',
+            fill: false
+          },
+          {
+            label: 'Prediksi',
+            data: {{ predictions }},
+            borderColor: 'orange',
+            fill: false
+          }
+        ]
+      }
+    });
+  </script>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+

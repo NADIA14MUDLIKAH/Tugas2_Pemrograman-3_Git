@@ -1,0 +1,23 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f5f8fa;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h3 {
+  color: #333;
+}
+
+pre {
+  background-color: #f7f7f7;
+  padding: 10px;
+  border-radius: 6px;
+}
